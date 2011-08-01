@@ -1,0 +1,146 @@
+<?xml version="1.0"?>
+<typesystem package="QtTracker">
+    <load-typesystem name="typesystem_core.xml" generate="no"/>
+
+    <!--
+    <rejection class="SopranoLive::RDFGraph"/>
+    -->
+    <rejection class="SopranoLive::RDFTransaction"/>
+    <rejection class="SopranoLive::RDFSelect"/>
+    <!--
+    <rejection class="SopranoLive::RDFServicePtr"/>
+    <rejection class="SopranoLive::RDFService"/>
+    -->
+    <rejection class="SopranoLive::LiveNode"/>
+    <rejection class="SopranoLive::LiveNodeModel"/>
+    <rejection class="SopranoLive::LiveNodes"/>
+    <rejection class="SopranoLive::LiveResource"/>
+    <rejection class="SopranoLive::LiveResourceBridgeMixin"/>
+    <rejection class="SopranoLive::Live"/>
+    <rejection class="SopranoLive::LivePolicy"/>
+    <rejection class="SopranoLive::LiveBagPolicy"/>
+    <rejection class="SopranoLive::StrictLive"/>
+    <rejection class="SopranoLive::LiveResourceBridgeFacade"/>
+    <rejection class="SopranoLive::ValueOfLiveEntity_Policy"/>
+    <rejection class="SopranoLive::ValueOfLiveResource"/>
+    <rejection class="MostDerivedPolicy"/>
+    <rejection class="QSharedFromThis"/>
+    <rejection class="QSharedObject"/>
+
+    <add-function signature="tracker()" return-type="SopranoLive::">
+<!--
+        <inject-code class="target">
+            Phonon::BackendCapabilities::NotifierWrapper *_notifierWrapper =  Phonon::BackendCapabilities::Notifi
+            %PYARG_0 = %CONVERTTOPYTHON[Phonon::BackendCapabilities::NotifierWrapper*](_notifierWrapper);
+         </inject-code>
+-->
+    </add-function>
+    <namespace-type name="SopranoLive" generate="no">
+        <enum-type identified-by-value="offset_BackEndFlags"/>
+
+        <value-type name="CppType">
+            <enum-type name="ConstraintId"/>
+            <modify-function signature="of()" remove="all"/> <!-- uses template -->
+            <modify-function signature="rdfTypeOf()" remove="all"/> <!-- uses template -->
+        </value-type>
+        <!-- <object-type name="Live_Policy"/> -->
+        <value-type name="NodeListPolicy"/> <!-- Intrincated struct -->
+        <value-type name="OmniTypeLiveNode"/> <!-- Intrincated struct -->
+        <value-type name="RDFFilter"/>
+        <object-type name="RDFPattern"> <!-- maybe value-type -->
+            <enum-type identified-by-value="TopmostParent"/>
+        </object-type>
+        <object-type name="RDFSelectColumn"> <!-- maybe value-type -->
+            <enum-type identified-by-value="Normal"/>
+        </object-type>
+        <object-type name="RDFPropertyData"/> <!-- maybe should generate only RDFProperty -->
+        <object-type name="RDFQuery">
+            <enum-type name="Type"/>
+        </object-type>
+        <object-type name="RDFServicePtr" generate="no"/>
+        <object-type name="RDFGraph">
+            <modify-function signature="service() const" remove="all"/>
+        </object-type>
+        <object-type name="RDFService">
+            <modify-function signature="rawExecuteQuery(const QString&amp;, int)">
+                <modify-argument index="2">
+                    <replace-default-expression with="SopranoLive::RDFQuery::SPARQL"/>
+                </modify-argument>
+            </modify-function>
+        </object-type>
+        <value-type name="RDFStrategy">
+            <enum-type name="Flags_offsets"/>
+            <enum-type name="Flags"/>
+            <enum-type name="ErrorFlags"/>
+        </value-type>
+        <object-type name="RDFSubSelect"/>
+        <value-type name="RDFUpdate"/>
+        <object-type name="RDFVariable">
+            <enum-type identified-by-value="TopmostParent"/>
+            <modify-function signature="alternatives(QList&lt;SopranoLive::RDFVariable&gt;)const" remove="all"/> <!-- Deprecated -->
+            <modify-function signature="cppType() const" remove="all"/> <!-- Deprecated -->
+            <modify-function signature="fromType(QString,unsigned long long)" remove="all"/>
+            <modify-function signature="function() const" remove="all"/>
+            <modify-function signature="function(QList&lt;SopranoLive::RDFVariable&gt;) const" remove="all"/>
+            <modify-function signature="isOfType(bool,unsigned long long) const" remove="all"/>
+            <modify-function signature="metaIsBound() const" remove="all"/>
+        </object-type>
+        <object-type name="RDFVariableLink"/>
+        <value-type name="RDFVariableStatement"/>
+        <value-type name="ValueOfLiveResource_Policy">
+            <modify-function signature="evaluateVariable() const" remove="all"/>
+        </value-type>
+        <value-type name="ValueOfOmniTypeLiveResource_Policy">
+            <modify-function signature="hasType() const" remove="all"/>
+        </value-type>
+        <namespace-type name="BackEnds" generate="no">
+            <namespace-type name="Tracker" generate="no">
+                <enum-type identified-by-value="BatchMode"/>
+                <object-type name="ClassUpdateSignaler">
+                    <modify-function signature="get()" remove="all"/> <!-- uses template -->
+                </object-type>
+            </namespace-type>
+        </namespace-type>
+        <!--
+        <namespace-type name="Ontologies" generate="yes">
+            <namespace-type name="nie" generate="no"/>
+            <namespace-type name="nco" generate="yes">
+                <value-type name="Affiliation"/>
+                <value-type name="AuthorizationStatus"/>
+                <value-type name="BbsNumber"/>
+                <value-type name="CarPhoneNumber"/>
+                <value-type name="CellPhoneNumber"/>
+                <value-type name="Contact"/>
+                <value-type name="ContactGroup"/>
+                <value-type name="ContactList"/>
+                <value-type name="ContactListDataObject"/>
+                <value-type name="ContactMedium"/>
+                <value-type name="DomesticDeliveryAddress"/>
+                <value-type name="emailAddress"/>
+                <value-type name="FaxNumber"/>
+                <value-type name="Gender"/>
+                <value-type name="IMAccount"/>
+                <value-type name="IMAddress"/>
+                <value-type name="IMCapability"/>
+                <value-type name="IMContact"/>
+                <value-type name="InternationalDeliveryAddress"/>
+                <value-type name="IsdnNumber"/>
+                <value-type name="MessagingNumber"/>
+                <value-type name="MetaContact"/>
+                <value-type name="ModemNumber"/>
+                <value-type name="OrganizationContact"/>
+                <value-type name="PagerNumber"/>
+                <value-type name="ParcelDeliveryAddress"/>
+                <value-type name="PcsNumber"/>
+                <value-type name="PersonContact"/>
+                <value-type name="PhoneNumber"/>
+                <value-type name="PostalAddress"/>
+                <value-type name="PresenceStatus"/>
+                <value-type name="Role"/>
+                <value-type name="VideoTelephoneNumber"/>
+                <value-type name="VoicePhoneNumber"/>
+            </namespace-type>
+        </namespace-type>
+        -->
+    </namespace-type>
+</typesystem>
